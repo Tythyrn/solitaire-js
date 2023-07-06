@@ -8,10 +8,10 @@ import GameRenderer from "./GameRenderer";
 
 export default class Game {
     private deck: Deck;
-    private tableauPiles: Array<TableauPile>
-    private foundationPiles: Array<FoundationPile>
-    private stockPile: StockPile;
-    private wastePile: WastePile;
+    public tableauPiles: Array<TableauPile>
+    public foundationPiles: Array<FoundationPile>
+    readonly stockPile: StockPile;
+    public wastePile: WastePile;
 
     constructor() {
         this.deck = new Deck();

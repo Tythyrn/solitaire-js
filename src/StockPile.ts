@@ -11,6 +11,8 @@ export default class StockPile extends Pile {
     }
 
     drawCard(): Card | undefined {
+        if(this.cards.length <= 0) this.refillFromWaste();
+
         const card = this.removeCard();
         
         if (card) {

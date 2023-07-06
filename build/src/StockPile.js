@@ -11,6 +11,8 @@ class StockPile extends Pile_1.default {
         this.wastePile = wastePile;
     }
     drawCard() {
+        if (this.cards.length <= 0)
+            this.refillFromWaste();
         const card = this.removeCard();
         if (card) {
             card.flip();
