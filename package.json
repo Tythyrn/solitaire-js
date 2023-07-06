@@ -1,0 +1,11 @@
+{
+  "name": "solitaire",
+  "version": "1.0.0",
+  "description": "JavaScript Solitaire Game",
+  "main": "main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kendall Rundquist",
+  "license": "ISC"
+}
