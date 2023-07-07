@@ -74,10 +74,24 @@ export default class Game {
         }
     }
 
-    public moveCardsFromWasteToStock() {
-        if (this.stockPile.isEmpty()) {
-            this.stockPile.refillFromWaste();
+    public checkForWin(): boolean {
+        for(const tableauPile of this.tableauPiles) {
+            if (tableauPile.cards.length !== 0) return false
         }
+
+        if(this.stockPile.cards.length !== 0) return false;
+
+        if(this.wastePile.cards.length !== 0) return false;
+
+        for(const foundationPile of this.foundationPiles) {
+            if(foundationPile.cards.length !== 13) return false;
+
+            for(let i = 0; i < foundationPile.cards.length; i++) {
+                if (foundationPile.cards[0].numericalValue !== i + 1) return false;
+            }
+        }
+
+        return true;
     }
 
     public displayGameState(): void {

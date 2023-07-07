@@ -2,11 +2,9 @@ import Card from "./Card";
 
 export default class Deck {
     private cards: Array<Card>;
-    public numberOfCards: number
 
     constructor() {
         this.cards = [];
-        this.numberOfCards = 0;
         this.initializeDeck();
         this.shuffle();
     }
@@ -23,7 +21,6 @@ export default class Deck {
 
                 const card = new Card(suit, rank, numericalValue);
                 this.cards.push(card);
-                this.numberOfCards++;
             }
         }
     } 
@@ -33,7 +30,7 @@ export default class Deck {
         let randomIndex: number;
         let temp: Card;
 
-        for(let i = this.numberOfCards - 1; i >= 0; i--) {
+        for(let i = this.cards.length - 1; i >= 0; i--) {
             randomIndex = Math.floor(Math.random() * i);
 
             temp = this.cards[i];
@@ -45,18 +42,15 @@ export default class Deck {
     public moveRemainingCards() {
         const temp = this.cards;
         this.cards = [];
-        this.numberOfCards = 0;
         return temp;
     }
 
     public dealCard(): Card | undefined {
-        this.numberOfCards--;
         return this.cards.pop();
     }
 
     public reset(): void {
         this.cards = [];
-        this.numberOfCards = 0;
         this.initializeDeck();
         this.shuffle();
     }

@@ -12,7 +12,7 @@ class FoundationPile extends Pile_1.default {
     }
     canAddCard(card) {
         if (this.isEmpty()) {
-            return card.numericalValue === 1;
+            return card.numericalValue === 1 && card.suit === this.suit;
         }
         const topCard = this.getTopCard();
         return topCard !== undefined && card.suit === this.suit && card.numericalValue === topCard.numericalValue + 1;

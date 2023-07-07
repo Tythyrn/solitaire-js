@@ -11,7 +11,7 @@ export default class FoundationPile extends Pile {
 
     public canAddCard(card: Card): boolean {
         if(this.isEmpty()) {
-            return card.numericalValue === 1;
+            return card.numericalValue === 1 && card.suit === this.suit;
         }
 
         const topCard = this.getTopCard();

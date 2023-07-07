@@ -10,7 +10,7 @@ export default class StockPile extends Pile {
         this.wastePile = wastePile;
     }
 
-    drawCard(): Card | undefined {
+    public drawCard(): Card | undefined {
         if(this.cards.length <= 0) this.refillFromWaste();
 
         const card = this.removeCard();
@@ -23,7 +23,7 @@ export default class StockPile extends Pile {
         return card;
     }
 
-    refillFromWaste(): void {
+    private refillFromWaste(): void {
         while (!this.wastePile.isEmpty()) {
             const card = this.wastePile.removeCard();
 

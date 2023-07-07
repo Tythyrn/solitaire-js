@@ -2,45 +2,73 @@ import Pile from "./Pile";
 import Card from "./Card";
 
 export default class TableauPile extends Pile {
-    public getTopFaceUpCard(): Card | undefined {
-        const topCard = this.getTopCard();
+    private flippedCards: Array<Card>
 
-        if (topCard && topCard.flipped) {
-            return topCard;
+    constructor() {
+        super();
+        this.flippedCards = [];
+    }
+
+    public addCard(card: Card | undefined): void {
+        super.addCard(card);
+        
+        if (card && card.flipped) {
+            this.flippedCards.push(card);
+        }
+    }
+
+    public getTopFaceUpCard(): Card | undefined {
+        for (let i = 0; i < this.cards.length; i++) {
+
+            if (this.cards[i].flipped) {
+                return this.cards[i];
+            }
         }
 
         return undefined;
     }
 
-    public flipTopCard(): void {
-        const topCard = this.getTopCard();
+    public removeCard(): Card | undefined {
+        const removedCard = super.removeCard();
+        const nextCard = this.getTopCard();
 
-        if (topCard && !topCard.flipped) {
-            topCard.flip();
-        }
-    }
-
-    public canAddCard(card: Card): boolean {
-    if (this.isEmpty()) {
-            return card.numericalValue === 13; // Only accept King when the pile is empty
+        
+        
+        if(nextCard) {
+            nextCard.flip();
+            this.flippedCards.push(nextCard);
         }
 
-        const topCard = this.getTopFaceUpCard();
-        return topCard !== undefined && card.color !== topCard.color && card.numericalValue === topCard.numericalValue - 1;
+        return removedCard;
     }
 
     public canMoveSequence(cards: Card[]): boolean {
         if (cards.length === 0) {
+            return false
+        }
+
+        const leadingCard = cards[0];
+
+        const topCard = this.getTopCard();
+        if (topCard === undefined) {
+            if(leadingCard.numericalValue === 13) return true;
+            return false;
+        }
+        
+        return leadingCard.color !== topCard.color && leadingCard.numericalValue === topCard.numericalValue - 1;
+    }
+
+    public moveSequence(cards: Card[]): boolean {
+        if (!this.canMoveSequence(cards)) {
             return false;
         }
 
-        const topCard = this.getTopFaceUpCard();
-        if (topCard === undefined) {
-            return true;
+        for (const card of cards) {
+            this.cards.push(card);
+            this.flippedCards.push(card);
         }
 
-        const lastCard = cards[cards.length - 1];
-        return lastCard.color !== topCard.color && lastCard.numericalValue === topCard.numericalValue - 1;
+        return true;
     }
 
     getCard(index: number): Card {

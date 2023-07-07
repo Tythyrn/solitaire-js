@@ -6,10 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Card_1 = __importDefault(require("./Card"));
 class Deck {
     cards;
-    numberOfCards;
     constructor() {
         this.cards = [];
-        this.numberOfCards = 0;
         this.initializeDeck();
         this.shuffle();
     }
@@ -23,7 +21,6 @@ class Deck {
                 const numericalValue = j + 1;
                 const card = new Card_1.default(suit, rank, numericalValue);
                 this.cards.push(card);
-                this.numberOfCards++;
             }
         }
     }
@@ -31,7 +28,7 @@ class Deck {
     shuffle() {
         let randomIndex;
         let temp;
-        for (let i = this.numberOfCards - 1; i >= 0; i--) {
+        for (let i = this.cards.length - 1; i >= 0; i--) {
             randomIndex = Math.floor(Math.random() * i);
             temp = this.cards[i];
             this.cards[i] = this.cards[randomIndex];
@@ -41,16 +38,13 @@ class Deck {
     moveRemainingCards() {
         const temp = this.cards;
         this.cards = [];
-        this.numberOfCards = 0;
         return temp;
     }
     dealCard() {
-        this.numberOfCards--;
         return this.cards.pop();
     }
     reset() {
         this.cards = [];
-        this.numberOfCards = 0;
         this.initializeDeck();
         this.shuffle();
     }
