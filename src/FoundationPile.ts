@@ -15,6 +15,8 @@ export default class FoundationPile extends Pile {
         }
 
         const topCard = this.getTopCard();
-        return topCard !== undefined && card.suit === this.suit && card.numericalValue === topCard.numericalValue + 1;
+        return topCard !== undefined && 
+            card.suit === this.suit && 
+            card.numericalValue === topCard.numericalValue + 1;
     }
 }

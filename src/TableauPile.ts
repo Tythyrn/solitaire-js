@@ -2,76 +2,75 @@ import Pile from "./Pile";
 import Card from "./Card";
 
 export default class TableauPile extends Pile {
-    private flippedCards: Array<Card>
+    readonly flippedCardsIndices: Number[]
 
     constructor() {
         super();
-        this.flippedCards = [];
+        this.flippedCardsIndices = [];
     }
 
     public addCard(card: Card | undefined): void {
         super.addCard(card);
         
         if (card && card.flipped) {
-            this.flippedCards.push(card);
+            this.flippedCardsIndices.push(this.cards.length - 1);
         }
     }
 
-    public getTopFaceUpCard(): Card | undefined {
-        for (let i = 0; i < this.cards.length; i++) {
-
-            if (this.cards[i].flipped) {
-                return this.cards[i];
+    public addCards(cards: Card[]):void {
+        if(cards !== undefined) {
+            for(const card of cards) {
+                this.addCard(card);
             }
         }
-
-        return undefined;
     }
 
     public removeCard(): Card | undefined {
         const removedCard = super.removeCard();
-        const nextCard = this.getTopCard();
+        this.flippedCardsIndices.pop();
 
-        
-        
-        if(nextCard) {
-            nextCard.flip();
-            this.flippedCards.push(nextCard);
-        }
+         //if the top card is not flipped, flip it
+         const nextCard = this.getTopCard();
+
+         if(nextCard && !nextCard.flipped){
+             nextCard.flip();
+             this.flippedCardsIndices.push(this.cards.length - 1);
+         }
 
         return removedCard;
     }
 
-    public canMoveSequence(cards: Card[]): boolean {
-        if (cards.length === 0) {
-            return false
+    //remove cards from the tableau to be added to another tableau
+    public removeCards(startingIndex: number): Card[] {
+        //remove the cards
+        const removedCards = this.cards.splice(startingIndex);
+        this.flippedCardsIndices.splice(this.flippedCardsIndices.indexOf(startingIndex));
+
+        //if the top card is not flipped, flip it
+        const nextCard = this.getTopCard();
+
+        if(nextCard && !nextCard.flipped){
+            nextCard.flip();
+            this.flippedCardsIndices.push(this.cards.length - 1);
         }
 
-        const leadingCard = cards[0];
+        return removedCards;
+    }
+
+    public canAddCards(card: Card): boolean {
+        if(this.isEmpty()) {
+            return card.numericalValue === 13; //Check if it is a King
+        }
 
         const topCard = this.getTopCard();
-        if (topCard === undefined) {
-            if(leadingCard.numericalValue === 13) return true;
-            return false;
-        }
-        
-        return leadingCard.color !== topCard.color && leadingCard.numericalValue === topCard.numericalValue - 1;
+        return topCard !== undefined && 
+            card.color !== topCard.color && 
+            card.numericalValue === topCard.numericalValue - 1;
     }
 
-    public moveSequence(cards: Card[]): boolean {
-        if (!this.canMoveSequence(cards)) {
-            return false;
-        }
-
-        for (const card of cards) {
-            this.cards.push(card);
-            this.flippedCards.push(card);
-        }
-
-        return true;
+    public canRemoveCards(startingIndex: Number): boolean {
+        //if index is not there it will return -1 which means you can't remove it
+        return this.flippedCardsIndices.indexOf(startingIndex) !== -1;
     }
 
-    getCard(index: number): Card {
-        return this.cards[index];
-    }
 }

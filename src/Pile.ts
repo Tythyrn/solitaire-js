@@ -1,7 +1,7 @@
 import Card from "./Card";
 
 export default class Pile {
-    protected _cards: Array<Card>
+    protected _cards: Card[]
 
     constructor() {
         this._cards = [];
