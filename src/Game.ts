@@ -98,4 +98,23 @@ export default class Game {
         GameRenderer.renderGameState(this.tableauPiles, this.foundationPiles, this.stockPile, this.wastePile);
     }
 
+    getGameState(): any {
+        // Retrieve the current state of the game
+        const foundationStates = this.foundationPiles.map((foundationPile) =>
+          foundationPile.cards
+        );
+        const stockState = this.stockPile.cards;
+        const tableauStates = this.tableauPiles.map((tableauPile) =>
+          tableauPile.cards
+        );
+        const wasteState = this.wastePile.cards;
+    
+        return {
+          foundationPiles: foundationStates,
+          stockPile: stockState,
+          tableauPiles: tableauStates,
+          wastePile: wasteState,
+        };
+      }
+
 }

@@ -23,7 +23,7 @@ export default class StockPile extends Pile {
         return card;
     }
 
-    private refillFromWaste(): void {
+    public refillFromWaste(): void {
         while (!this.wastePile.isEmpty()) {
             const card = this.wastePile.removeCard();
 

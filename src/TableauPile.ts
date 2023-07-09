@@ -2,7 +2,7 @@ import Pile from "./Pile";
 import Card from "./Card";
 
 export default class TableauPile extends Pile {
-    readonly flippedCardsIndices: Number[]
+    readonly flippedCardsIndices: number[]
 
     constructor() {
         super();
@@ -68,7 +68,7 @@ export default class TableauPile extends Pile {
             card.numericalValue === topCard.numericalValue - 1;
     }
 
-    public canRemoveCards(startingIndex: Number): boolean {
+    public canRemoveCards(startingIndex: number): boolean {
         //if index is not there it will return -1 which means you can't remove it
         return this.flippedCardsIndices.indexOf(startingIndex) !== -1;
     }
