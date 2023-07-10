@@ -64,39 +64,23 @@ class Game {
         }
     }
     checkForWin() {
-        for (const tableauPile of this.tableauPiles) {
-            if (tableauPile.cards.length !== 0)
-                return false;
-        }
-        if (this.stockPile.cards.length !== 0)
-            return false;
-        if (this.wastePile.cards.length !== 0)
-            return false;
         for (const foundationPile of this.foundationPiles) {
             if (foundationPile.cards.length !== 13)
                 return false;
-            for (let i = 0; i < foundationPile.cards.length; i++) {
-                if (foundationPile.cards[0].numericalValue !== i + 1)
-                    return false;
-            }
         }
         return true;
     }
     displayGameState() {
         GameRenderer_1.default.renderGameState(this.tableauPiles, this.foundationPiles, this.stockPile, this.wastePile);
     }
-    getGameState() {
-        // Retrieve the current state of the game
-        const foundationStates = this.foundationPiles.map((foundationPile) => foundationPile.cards);
-        const stockState = this.stockPile.cards;
-        const tableauStates = this.tableauPiles.map((tableauPile) => tableauPile.cards);
-        const wasteState = this.wastePile.cards;
-        return {
-            foundationPiles: foundationStates,
-            stockPile: stockState,
-            tableauPiles: tableauStates,
-            wastePile: wasteState,
-        };
+    getCurrentState() {
+        const tableauState = this.tableauPiles
+            .map((tableau) => JSON.stringify(tableau))
+            .join("|");
+        const foundationState = this.foundationPiles
+            .map((foundation) => JSON.stringify(foundation))
+            .join("|");
+        return `${tableauState}-${foundationState}`;
     }
 }
 exports.default = Game;
